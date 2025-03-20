@@ -1,4 +1,4 @@
-# 🌟 MegaNumEngine 🌟
+# InfinityCalc
 
 ## 📚 Overview
 Welcome to **MegaNumEngine**, your go-to solution for handling large integers with ease! This project allows you to perform various arithmetic operations on big integers that exceed standard data types.
