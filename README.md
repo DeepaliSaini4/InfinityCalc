@@ -1,7 +1,7 @@
 # InfinityCalc
 
 ## Overview
-Welcome to **MegaNumEngine**, a robust solution for handling arbitrary-precision integers. This library provides efficient arithmetic operations for integers that exceed standard data type limitations.
+Welcome to **InfinityCalc**, a robust solution for handling arbitrary-precision integers. This library provides efficient arithmetic operations for integers that exceed standard data type limitations.
 
 ## Features
 - Arbitrary-precision integer arithmetic
