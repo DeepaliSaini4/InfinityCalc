@@ -209,40 +209,86 @@ G_BigInt G_BigInt::operator--()
     return (*this);
 }
 
-//multipication
-G_BigInt G_BigInt ::operator*(G_BigInt number)
+//multiplication using Karatsuba algorithm
+G_BigInt G_BigInt::operator*(G_BigInt number)
 {
     G_BigInt ans;
     ans.sign = sign * number.sign;
-    int l = Bnum.size() + number.Bnum.size();
-    for (int i = 0; i < l; i++)
-    {
-        ans.Bnum += '0';
+    
+    // If either number is zero, return zero
+    if (Bnum == "0" || number.Bnum == "0") {
+        ans.Bnum = "0";
+        return ans;
     }
-    int carry = 0;
-    int k, x = 0;
-    for (int i = Bnum.size() - 1; i >= 0; i--)
-    {
-        k = x;
-        for (int j = number.Bnum.size() - 1; j >= 0; j--)
-        {
-            carry += (Bnum[i] - '0') * (number.Bnum[j] - '0') + (ans.Bnum[k] - '0');
-            ans.Bnum[k++] = carry % 10 + '0';
-            carry /= 10;
+    
+    // For small numbers, use the classical algorithm
+    if (Bnum.size() < 10 || number.Bnum.size() < 10) {
+        string result(Bnum.size() + number.Bnum.size(), '0');
+        
+        for (int i = Bnum.size() - 1; i >= 0; i--) {
+            int carry = 0;
+            for (int j = number.Bnum.size() - 1; j >= 0; j--) {
+                int product = (Bnum[i] - '0') * (number.Bnum[j] - '0') + 
+                             (result[i + j + 1] - '0') + carry;
+                result[i + j + 1] = (product % 10) + '0';
+                carry = product / 10;
+            }
+            result[i] += carry;
         }
-        while (carry)
-        {
-            ans.Bnum[k++] = carry % 10 + '0';
-            carry /= 10;
-        }
-        x++;
+        
+        ans.Bnum = result;
+        ans.headzero();
+        return ans;
     }
-    reverse(ans.Bnum.begin(), ans.Bnum.end());
-    ans.headzero();
-    return ans;
+    
+    // Implementation of Karatsuba algorithm
+    size_t m = max(Bnum.size(), number.Bnum.size());
+    size_t m2 = m / 2;
+    
+    // Pad strings with leading zeros to make them equal length
+    string a = Bnum;
+    string b = number.Bnum;
+    reverse(a.begin(), a.end());
+    reverse(b.begin(), b.end());
+    while (a.size() < m) a += '0';
+    while (b.size() < m) b += '0';
+    reverse(a.begin(), a.end());
+    reverse(b.begin(), b.end());
+    
+    // Split the numbers
+    G_BigInt high1(a.substr(0, a.size() - m2));
+    G_BigInt low1(a.substr(a.size() - m2));
+    G_BigInt high2(b.substr(0, b.size() - m2));
+    G_BigInt low2(b.substr(b.size() - m2));
+    
+    // Calculate three multiplications recursively
+    G_BigInt z0 = low1 * low2;
+    G_BigInt z1 = (high1 + low1) * (high2 + low2);
+    G_BigInt z2 = high1 * high2;
+    
+    // Calculate the final result using the Karatsuba formula
+    G_BigInt result = z2;
+    
+    // Pad with zeros (equivalent to shifting)
+    for (size_t i = 0; i < 2 * m2; i++) {
+        result.Bnum += '0';
+    }
+    
+    G_BigInt middle = z1 - z2 - z0;
+    
+    // Pad middle with zeros
+    for (size_t i = 0; i < m2; i++) {
+        middle.Bnum += '0';
+    }
+    
+    result = result + middle + z0;
+    result.sign = ans.sign;
+    result.headzero();
+    
+    return result;
 }
 
-//vagsesh
+//modulus
 G_BigInt G_BigInt ::operator%(G_BigInt number)
 {
     if (number.Bnum == "0")
