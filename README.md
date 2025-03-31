@@ -1,55 +1,65 @@
 # InfinityCalc
 
-## 📚 Overview
-Welcome to **MegaNumEngine**, your go-to solution for handling large integers with ease! This project allows you to perform various arithmetic operations on big integers that exceed standard data types.
+## Overview
+Welcome to **MegaNumEngine**, a robust solution for handling arbitrary-precision integers. This library provides efficient arithmetic operations for integers that exceed standard data type limitations.
 
-## 🛠️ Getting Started
-To get started, open this code in your favorite editor and dive into the main function to explore its capabilities!
+## Features
+- Arbitrary-precision integer arithmetic
+- Full support for standard mathematical operations
+- Optimized performance with Karatsuba algorithm for multiplication
+- Intuitive syntax similar to built-in types
 
-### 📝 Declaration
-You can declare a **BigInt** variable just like any other variable:
+## Getting Started
+To get started, include the header file in your project and begin using the G_BigInt class.
 
+### Declaration
+Declare a G_BigInt variable like any standard variable:
 ```cpp
 G_BigInt x, y, z;
 ```
 
-### 🚀 Initialization
-You can initialize **G_BigInt** in two ways:
-1. **Using Constructor**:
+### Initialization
+You can initialize G_BigInt in two ways:
+
+1. Using Constructor:
    ```cpp
    G_BigInt x("23243");
    ```
-2. **Using String**:
+
+2. Using String:
    ```cpp
    string str = "3435453543";
    G_BigInt x = str;
    ```
 
-**Note**: You cannot initialize using:
+**Note**: The following initializations are not supported:
 ```cpp
 G_BigInt x = "2324"; // Not allowed
 G_BigInt x = 23434235435345454; // Not allowed
 ```
 
-## 🔍 Input and Output
+## Input and Output
 - **Input**: Use `cin >> variable_name;`
 - **Output**: Print using `cout << variable_name;`
 
-## ➕ Arithmetic Operations
-You can perform the following arithmetic operations just like with standard integers:
-- **Addition**: `+`
-- **Subtraction**: `-`
-- **Multiplication**: `*`
-- **Division**: `/`
-- **Remainder**: `%`
+## Arithmetic Operations
+The following arithmetic operations are supported:
+- Addition: `+`
+- Subtraction: `-`
+- Multiplication: `*` (Uses Karatsuba algorithm for improved performance)
+- Division: `/`
+- Remainder: `%`
 
-Make sure both operands are of type **G_BigInt**.
+Both operands must be of type G_BigInt.
 
-## 🔗 Relational Operators
-You can compare two **G_BigInt** variables using:
+## Performance Optimization
+This implementation uses the Karatsuba algorithm for multiplication, which significantly improves performance for large integers. The algorithm has a time complexity of O(n^log₂3) ≈ O(n^1.585), compared to the classical algorithm's O(n²).
+
+## Relational Operators
+Compare two G_BigInt variables using:
 - `<`, `<=`, `>`, `>=`, `==`, `!=`
 
-## ⏩ Increment and Decrement
+## Increment and Decrement
 Use the same syntax as integers:
 ```cpp
 x++; // Increment
@@ -58,8 +68,8 @@ x--; // Decrement
 --x; // Pre-decrement
 ```
 
-## ⚖️ Assignment Operators
-Perform assignment operations seamlessly:
+## Assignment Operators
+Perform assignment operations:
 ```cpp
 x += y; // Add and assign
 x -= y; // Subtract and assign
@@ -68,11 +78,9 @@ x /= y; // Divide and assign
 x %= y; // Modulus and assign
 ```
 
-## 🔄 Sign Change
-You can change the sign of a **G_BigInt** variable just like you would with integers:
+## Sign Change
+Change the sign of a G_BigInt variable:
 ```cpp
 x = -x; // Changes x to -x
 ```
-
----
 
